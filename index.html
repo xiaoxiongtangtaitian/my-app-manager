@@ -2,369 +2,200 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#f6f7fb">
-<title>My Apps</title>
-
+<meta name="theme-color" content="#f5f5f7">
+<title>我的订阅</title>
 <style>
 *{box-sizing:border-box}
-
 :root{
---bg:#f6f7fb;
---card:#ffffff;
---text:#202333;
---muted:#9296a7;
---primary:#7465e9;
---line:#eef0f5;
+  --bg:#f5f5f7;
+  --card:#fff;
+  --dark:#292c35;
+  --text:#20232c;
+  --muted:#9296a3;
+  --line:#ebedf2;
+  --accent:#7465e9;
 }
-
 body{
-margin:0;
-background:var(--bg);
-color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+  margin:0;background:var(--bg);color:var(--text);
+  font:15px -apple-system,BlinkMacSystemFont,
+  "PingFang SC","Segoe UI",sans-serif;
 }
-
 button,input,select{font:inherit}
-
 button{cursor:pointer}
-
-.app{
-max-width:680px;
-margin:auto;
-min-height:100vh;
-padding:25px 20px 110px;
+button:disabled{opacity:.5}
+main{
+  max-width:720px;margin:auto;
+  padding:26px 17px 110px;
 }
-
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
-}
-
-h1{
-font-size:32px;
-margin:0;
-letter-spacing:-1px;
-}
-
-.subtitle{
-color:var(--muted);
-font-size:14px;
-margin-top:7px;
-}
-
+h1{font-size:30px;letter-spacing:-1px;margin:0}
+h2{font-size:19px;margin:0 0 16px}
+small,.muted{color:var(--muted)}
+.header{display:flex;justify-content:space-between;align-items:center}
 .avatar{
-width:45px;
-height:45px;
-border-radius:50%;
-background:#e8e4ff;
-display:grid;
-place-items:center;
-font-size:23px;
+  width:44px;height:44px;border-radius:50%;
+  background:#e9e5ff;display:grid;place-items:center;font-size:23px
 }
-
-.summary{
-background:linear-gradient(135deg,#8274f1,#a397fa);
-color:white;
-border-radius:25px;
-padding:25px;
-margin-bottom:25px;
+.subtitle{color:var(--muted);font-size:13px;margin:7px 0 24px}
+.hero{
+  background:var(--dark);color:white;
+  padding:25px;border-radius:25px;
+  box-shadow:0 10px 28px #292c3520;
 }
-
-.summary small{opacity:.85}
-
-.summary strong{
-display:block;
-font-size:38px;
-margin:10px 0;
+.hero small{color:#c5c8d0}
+.hero strong{
+  display:block;font-size:35px;margin:13px 0;
+  overflow-wrap:anywhere
 }
-
-.summary-bottom{
-display:flex;
-justify-content:space-between;
-font-size:13px;
-margin-top:18px;
+.hero-bottom{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#c5c8d0}
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:10px;margin:15px 0 25px;
 }
-
-.section-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin:25px 0 15px;
+.stat,.panel,.appcard{
+  background:white;border-radius:19px;
+  box-shadow:0 4px 18px #22222208;
 }
-
-.section-title h2{
-font-size:19px;
-margin:0;
+.stat{padding:15px}
+.stat b{display:block;font-size:23px;margin-bottom:5px}
+.stat span{font-size:11px;color:var(--muted)}
+.sectiontitle{
+  display:flex;align-items:center;
+  justify-content:space-between;margin:25px 0 14px
 }
-
+.sectiontitle h2{margin:0}
 .link{
-background:none;
-border:0;
-color:var(--primary);
-font-weight:600;
+  background:none;border:0;color:var(--accent);
+  font-weight:650;padding:5px
 }
-
-.grid{
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:14px;
-}
-
-.card{
-background:white;
-border-radius:22px;
-padding:18px;
-box-shadow:0 4px 20px #20233308;
-min-width:0;
-}
-
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.appcard{padding:17px;min-width:0;cursor:pointer}
 .icon{
-width:56px;
-height:56px;
-border-radius:17px;
-background:linear-gradient(135deg,#8b7cf4,#54bce8);
-display:grid;
-place-items:center;
-font-size:25px;
-font-weight:700;
-color:white;
-margin-bottom:14px;
+  width:52px;height:52px;border-radius:16px;
+  background:linear-gradient(135deg,#8576ee,#4bb9dd);
+  display:grid;place-items:center;color:white;
+  font-size:23px;font-weight:750;margin-bottom:13px
 }
-
-.appname{
-font-weight:700;
-font-size:17px;
-overflow-wrap:anywhere;
-}
-
-.category{
-color:var(--muted);
-font-size:12px;
-margin-top:5px;
-}
-
-.price{
-font-size:14px;
-font-weight:700;
-margin-top:15px;
-}
-
+.appname{font-size:17px;font-weight:750;overflow-wrap:anywhere}
+.category{font-size:12px;color:var(--muted);margin:5px 0 12px}
+.price{font-weight:700;font-size:15px}
 .badge{
-display:inline-block;
-padding:5px 9px;
-border-radius:8px;
-background:#e8f7ee;
-color:#198453;
-font-size:11px;
-margin-top:10px;
+  display:inline-block;background:#eaf7f0;color:#218353;
+  border-radius:7px;padding:5px 8px;font-size:11px;margin-top:11px
 }
-
-.badge.warning{
-background:#fff2df;
-color:#b77315;
+.badge.warn{background:#fff1df;color:#af6b16}
+.panel{padding:20px;margin:17px 0}
+.row{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;padding:13px 0;border-bottom:1px solid var(--line)
 }
-
-.nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:#ffffffed;
-backdrop-filter:blur(20px);
-border-top:1px solid var(--line);
-display:flex;
-justify-content:space-around;
-padding:12px 0 calc(12px + env(safe-area-inset-bottom));
-z-index:10;
+.row:last-child{border:0}
+.row span{color:#777e8e;font-size:13px}
+.row b{font-size:13px;text-align:right;overflow-wrap:anywhere}
+.tabs{display:flex;gap:8px;overflow-x:auto;margin:20px 0}
+.tabs button{
+  white-space:nowrap;border:0;background:#e9eaf0;
+  color:#666b79;border-radius:11px;padding:10px 15px
 }
-
-.nav button{
-background:none;
-border:0;
-color:#a0a4b2;
-font-size:12px;
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:5px;
+.tabs button.active{background:var(--dark);color:white}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;color:#73798a;margin-bottom:7px}
+input,select{
+  width:100%;padding:12px;border:1px solid #e2e4eb;
+  background:#fafbff;border-radius:11px;min-width:0;color:var(--text)
 }
-
-.nav button.active{color:var(--primary)}
-
-.nav .symbol{font-size:24px}
-
-.fab{
-position:fixed;
-bottom:95px;
-right:max(22px,calc((100vw - 680px)/2 + 22px));
-width:58px;
-height:58px;
-border-radius:19px;
-background:var(--primary);
-color:white;
-border:0;
-font-size:30px;
-box-shadow:0 8px 22px #7465e950;
-z-index:5;
+button.primary{
+  border:0;background:var(--dark);color:white;
+  border-radius:12px;padding:13px 17px;font-weight:650
 }
-
+button.soft{
+  border:0;background:#eeedf9;color:#6255c9;
+  border-radius:12px;padding:12px
+}
+button.danger{
+  border:0;background:#fff0f0;color:#bc3447;
+  border-radius:12px;padding:12px
+}
+.full{width:100%}
+.actions{display:flex;gap:10px;margin-top:15px}
+.actions button{flex:1}
 .page{display:none}
 .page.active{display:block}
-
-.list{
-background:white;
-border-radius:20px;
-overflow:hidden;
+.nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:20;
+  background:#ffffffed;backdrop-filter:blur(18px);
+  border-top:1px solid var(--line);
+  display:flex;justify-content:space-around;
+  padding:11px 0 calc(12px + env(safe-area-inset-bottom))
 }
-
-.list-item{
-display:flex;
-align-items:center;
-gap:13px;
-padding:16px;
-border-bottom:1px solid var(--line);
-cursor:pointer;
+.nav button{
+  background:none;border:0;color:#9b9faa;
+  font-size:11px;display:flex;flex-direction:column;gap:5px;align-items:center
 }
-
-.list-item:last-child{border:0}
-
-.mini-icon{
-width:45px;
-height:45px;
-border-radius:13px;
-background:#edeaff;
-color:var(--primary);
-display:grid;
-place-items:center;
-font-size:20px;
-font-weight:700;
-flex-shrink:0;
+.nav button.active{color:var(--accent)}
+.nav .symbol{font-size:23px}
+.fab{
+  position:fixed;bottom:91px;
+  right:max(22px,calc((100vw - 720px)/2 + 22px));
+  width:57px;height:57px;border:0;border-radius:18px;
+  background:var(--dark);color:white;font-size:29px;
+  box-shadow:0 7px 20px #292c3540;z-index:10
 }
-
-.list-info{flex:1;min-width:0}
-.list-info b{display:block;overflow-wrap:anywhere}
-.list-info small{color:var(--muted)}
-
-.panel{
-background:white;
-border-radius:22px;
-padding:20px;
-margin-top:20px;
-}
-
-.field{margin-bottom:16px}
-
-.field label{
-display:block;
-font-size:13px;
-color:#777d90;
-margin-bottom:7px;
-}
-
-input,select{
-width:100%;
-border:1px solid #e5e7ef;
-border-radius:12px;
-padding:13px;
-background:#fafbff;
-color:var(--text);
-min-width:0;
-}
-
-.primary{
-background:var(--primary);
-color:white;
-border:0;
-border-radius:13px;
-padding:14px 20px;
-font-weight:650;
-}
-
-.secondary{
-background:#eeecfb;
-color:#6256cc;
-border:0;
-border-radius:13px;
-padding:13px;
-}
-
-.danger{
-background:#fff0f0;
-color:#c13b4d;
-border:0;
-border-radius:13px;
-padding:13px;
-}
-
-.full{width:100%}
-
-.actions{
-display:flex;
-gap:10px;
-margin-top:15px;
-}
-
-.actions button{flex:1}
-
-.setting{
-padding:17px;
-border-bottom:1px solid var(--line);
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:12px;
-}
-
-.setting:last-child{border:0}
-
-.setting button{
-border:0;
-background:none;
-color:var(--primary);
-font-weight:600;
-}
-
-.empty{
-text-align:center;
-color:var(--muted);
-padding:40px 10px;
-}
-
-#lockscreen{
-position:fixed;
-inset:0;
-background:var(--bg);
-z-index:100;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
-}
-
-.lockbox{
-background:white;
-border-radius:26px;
-padding:28px;
-width:100%;
-max-width:390px;
-text-align:center;
-}
-
-.lockbox h2{font-size:25px}
-
-.lockbox input{margin:10px 0}
-
 .hidden{display:none!important}
-
+.empty{text-align:center;color:var(--muted);padding:35px 10px;grid-column:1/-1}
+.calendarhead{display:flex;justify-content:space-between;align-items:center}
+.calendar{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  gap:5px;margin-top:18px
+}
+.day,.weekday{text-align:center;padding:10px 2px;font-size:12px}
+.weekday{color:var(--muted)}
+.day{background:#f7f7fa;border-radius:10px;min-height:42px}
+.day.today{outline:2px solid #a99df5}
+.day.has{background:#eae6ff;color:#5748cb;font-weight:750}
+.day i{display:block;font-size:8px;font-style:normal}
+.bar{
+  height:12px;background:#eeeef4;border-radius:9px;
+  overflow:hidden;flex:1
+}
+.bar div{height:100%;background:var(--accent);border-radius:9px}
+.analysisrow{display:flex;gap:12px;align-items:center;margin:16px 0;font-size:12px}
+.analysisrow span{width:70px;overflow-wrap:anywhere}
+.analysisrow b{min-width:85px;text-align:right}
+.wallet{
+  background:linear-gradient(135deg,#343944,#555b69);
+  color:white;border-radius:23px;padding:24px;margin:16px 0
+}
+.wallet strong{display:block;font-size:30px;margin:12px 0}
+.listitem{
+  background:white;padding:15px;border-bottom:1px solid var(--line);
+  display:flex;gap:12px;align-items:center;cursor:pointer
+}
+.listitem:first-child{border-radius:16px 16px 0 0}
+.listitem:last-child{border-radius:0 0 16px 16px;border:0}
+.listicon{
+  width:42px;height:42px;background:#ece9ff;color:#6455cf;
+  border-radius:13px;display:grid;place-items:center;font-size:19px
+}
+.listtext{flex:1;min-width:0}
+.listtext b{display:block}
+.listtext small{font-size:12px}
+#lockscreen{
+  position:fixed;inset:0;z-index:100;
+  background:var(--bg);display:grid;place-items:center;padding:20px
+}
+.lockbox{
+  background:white;padding:30px;border-radius:25px;
+  width:100%;max-width:390px;text-align:center
+}
+.lockbox input{margin:8px 0}
+.error{color:#bc3447;font-size:13px}
+.note{font-size:12px;color:#8c91a0;line-height:1.6}
 @media(max-width:360px){
-.grid{gap:10px}
-.card{padding:13px}
-.app{padding-left:13px;padding-right:13px}
+  main{padding-left:12px;padding-right:12px}
+  .grid{gap:9px}.appcard{padding:13px}
+  .hero strong{font-size:28px}
 }
 </style>
 </head>
@@ -372,684 +203,872 @@ text-align:center;
 <body>
 
 <div id="lockscreen">
-<div class="lockbox">
-<div style="font-size:55px">🔐</div>
-<h2>My Apps</h2>
-<p id="lockHint" class="subtitle"></p>
-
-<form id="unlockForm">
-<input id="password" type="password"
-placeholder="输入主密码" required>
-
-<input id="passwordConfirm" type="password"
-placeholder="再次输入主密码">
-
-<button class="primary full" type="submit"
-id="unlockButton">解锁</button>
-</form>
-
-<p id="lockError" style="color:#c13b4d;font-size:13px"></p>
-</div>
+  <div class="lockbox">
+    <div style="font-size:55px">🔐</div>
+    <h2>我的订阅</h2>
+    <p id="lockHint" class="muted"></p>
+    <form id="lockForm">
+      <input id="password" type="password" required placeholder="主密码">
+      <input id="confirmPassword" type="password" placeholder="再次输入主密码">
+      <button class="primary full" id="unlockBtn">继续</button>
+    </form>
+    <p id="lockError" class="error"></p>
+    <p class="note">请牢记主密码，忘记后无法恢复加密资料。</p>
+  </div>
 </div>
 
-<div class="app hidden" id="mainApp">
+<main id="mainApp" class="hidden">
+  <div class="header">
+    <div>
+      <h1 id="pageTitle">总览</h1>
+      <div class="subtitle">我的订阅与数字资产</div>
+    </div>
+    <div class="avatar">🌷</div>
+  </div>
 
-<div class="header">
-<div>
-<h1 id="pageTitle">My Apps</h1>
-<div class="subtitle">Your digital collection ✨</div>
-</div>
-<div class="avatar">🌷</div>
-</div>
+  <section id="overview" class="page active">
+    <div class="hero">
+      <small>本月预计订阅支出</small>
+      <strong id="monthlyTotal">¥0.00</strong>
+      <div class="hero-bottom">
+        <span id="yearlyTotal">年度预计 ¥0.00</span>
+        <span id="lifetimeCount">永久会员 0</span>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="appCount">0</b><span>全部应用</span></div>
+      <div class="stat"><b id="activeCount">0</b><span>周期订阅</span></div>
+      <div class="stat"><b id="backupCount">0</b><span>待备份</span></div>
+    </div>
+    <div class="sectiontitle">
+      <h2>我的订阅</h2>
+      <button class="link" onclick="showPage('subscriptions')">查看全部 →</button>
+    </div>
+    <div id="overviewGrid" class="grid"></div>
+    <div class="sectiontitle"><h2>即将续费</h2></div>
+    <div id="upcomingOverview" class="panel"></div>
+  </section>
 
-<section id="home" class="page active">
+  <section id="subscriptions" class="page">
+    <input id="search" placeholder="🔍 搜索应用">
+    <div class="tabs">
+      <button class="active" data-filter="all">全部</button>
+      <button data-filter="recurring">周期订阅</button>
+      <button data-filter="lifetime">永久会员</button>
+      <button data-filter="backup">待备份</button>
+    </div>
+    <div id="subscriptionGrid" class="grid"></div>
+  </section>
 
-<div class="summary">
-<small>我的数字资产</small>
-<strong id="total">0</strong>
-<small>已收藏的应用</small>
+  <section id="calendarPage" class="page">
+    <div class="panel">
+      <div class="calendarhead">
+        <button class="soft" id="prevMonth">‹</button>
+        <h2 id="monthTitle" style="margin:0"></h2>
+        <button class="soft" id="nextMonth">›</button>
+      </div>
+      <div id="calendar" class="calendar"></div>
+    </div>
+    <div class="sectiontitle"><h2>本月扣款安排</h2></div>
+    <div id="calendarEvents" class="panel"></div>
+  </section>
 
-<div class="summary-bottom">
-<span>💎 付费会员 <b id="paid">0</b></span>
-<span>☁️ 待备份 <b id="need">0</b></span>
-</div>
-</div>
+  <section id="analytics" class="page">
+    <div class="hero">
+      <small>预计年度订阅支出</small>
+      <strong id="analysisTotal">¥0.00</strong>
+      <div class="hero-bottom">
+        <span>按订阅周期折算</span>
+        <span>不含永久会员</span>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>按类别统计</h2>
+      <div id="categoryAnalysis"></div>
+    </div>
+    <div class="panel">
+      <h2>费用构成</h2>
+      <div id="planAnalysis"></div>
+    </div>
+  </section>
 
-<div class="section-title">
-<h2>我的应用</h2>
-<button class="link" onclick="showPage('apps')">
-查看全部 →
-</button>
-</div>
+  <section id="walletPage" class="page">
+    <div class="wallet">
+      <small>我的记账钱包</small>
+      <strong id="walletBalance">¥0.00</strong>
+      <small>余额 = 充值 - 扣款</small>
+    </div>
+    <div class="panel">
+      <h2>添加交易</h2>
+      <div class="field">
+        <label>钱包名称</label>
+        <input id="walletName" value="我的钱包">
+      </div>
+      <div class="field">
+        <label>交易类型</label>
+        <select id="transactionType">
+          <option value="income">充值</option>
+          <option value="expense">扣款</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>金额</label>
+        <input id="transactionAmount" type="number" min="0.01" step="0.01">
+      </div>
+      <div class="field">
+        <label>日期</label>
+        <input id="transactionDate" type="date">
+      </div>
+      <div class="field">
+        <label>备注</label>
+        <input id="transactionNote" placeholder="例如：Netflix 会员">
+      </div>
+      <button class="primary full" id="saveTransaction">保存交易</button>
+    </div>
+    <div class="sectiontitle"><h2>交易历史</h2></div>
+    <div id="transactionList"></div>
+  </section>
 
-<div id="homeGrid" class="grid"></div>
+  <section id="settings" class="page">
+    <div class="panel">
+      <h2>数据管理</h2>
+      <div class="row">
+        <span>导出加密备份</span>
+        <button class="soft" id="exportBtn">导出</button>
+      </div>
+      <div class="row">
+        <span>导入加密备份</span>
+        <button class="soft" id="importBtn">导入</button>
+      </div>
+      <div class="row">
+        <span>锁定应用</span>
+        <button class="soft" id="lockBtn">锁定</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>关于</h2>
+      <div class="row"><span>版本</span><b>中文版 1.0</b></div>
+      <div class="row"><span>存储</span><b>本地加密</b></div>
+      <div class="row"><span>同步</span><b>手动导入导出</b></div>
+    </div>
+  </section>
 
-</section>
+  <section id="editor" class="page">
+    <div class="panel">
+      <h2 id="editorTitle">添加应用</h2>
+      <form id="appForm">
+        <div class="field">
+          <label>App 名称 *</label>
+          <input name="name" required maxlength="100">
+        </div>
+        <div class="field">
+          <label>分类</label>
+          <select name="category">
+            <option>效率</option><option>社交</option>
+            <option>影音</option><option>学习</option>
+            <option>工具</option><option>购物</option>
+            <option>AI 服务</option><option>其他</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>订阅类型</label>
+          <select name="plan">
+            <option>免费</option><option>月付</option>
+            <option>年付</option><option>永久会员</option>
+            <option>一次性购买</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>价格</label>
+          <input name="price" type="number" min="0" step="0.01">
+        </div>
+        <div class="field">
+          <label>币种</label>
+          <select name="currency">
+            <option value="CNY">人民币 CNY</option>
+            <option value="USD">美元 USD</option>
+            <option value="SGD">新加坡元 SGD</option>
+            <option value="HKD">港币 HKD</option>
+            <option value="EUR">欧元 EUR</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>下次续费日期</label>
+          <input name="renewal" type="date">
+        </div>
+        <div class="field">
+          <label>自动续费</label>
+          <select name="autoRenew">
+            <option value="true">是</option>
+            <option value="false">否</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>绑定账号类型</label>
+          <select name="accountType">
+            <option>Apple ID</option><option>微信</option>
+            <option>QQ 邮箱</option><option>手机号</option>
+            <option>邮箱</option><option>其他</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>账号标识</label>
+          <input name="account" placeholder="邮箱或手机号尾号">
+        </div>
+        <div class="field">
+          <label>数据位置</label>
+          <select name="backup">
+            <option>iCloud</option><option>App 云端</option>
+            <option>本地手动备份</option>
+            <option>电脑 / 硬盘</option><option>其他</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>是否需要手动备份</label>
+          <select name="needBackup">
+            <option value="false">无需备份</option>
+            <option value="true">需要备份</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>上次备份日期</label>
+          <input name="lastBackup" type="date">
+        </div>
+        <div class="field">
+          <label>备注</label>
+          <input name="notes">
+        </div>
+        <button class="primary full" type="submit">保存应用</button>
+        <div class="actions">
+          <button class="soft" type="button" onclick="showPage('subscriptions')">取消</button>
+          <button class="danger" type="button" id="deleteAppBtn">删除</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
 
-<section id="apps" class="page">
-
-<div class="field">
-<input id="search" placeholder="🔍 搜索应用">
-</div>
-
-<div id="appGrid" class="grid"></div>
-
-</section>
-
-<section id="subscriptions" class="page">
-
-<div class="summary">
-<small>我的付费应用</small>
-<strong id="subCount">0</strong>
-<small>会员与数字资产</small>
-</div>
-
-<div class="section-title">
-<h2>会员列表</h2>
-</div>
-
-<div id="subscriptionList" class="list"></div>
-
-</section>
-
-<section id="settings" class="page">
-
-<div class="section-title">
-<h2>数据管理</h2>
-</div>
-
-<div class="list">
-<div class="setting">
-<span>📤 加密导出</span>
-<button onclick="exportData()">导出</button>
-</div>
-
-<div class="setting">
-<span>📥 导入备份</span>
-<button onclick="document.getElementById('importFile').click()">
-导入
-</button>
-</div>
-
-<div class="setting">
-<span>🔐 锁定应用</span>
-<button onclick="lockApp()">锁定</button>
-</div>
-</div>
-
-<input id="importFile" type="file"
-accept=".json" class="hidden">
-
-</section>
-
-<section id="editor" class="page">
-
-<div class="panel">
-
-<h2 id="editorTitle">添加应用</h2>
-
-<form id="appForm">
-
-<div class="field">
-<label>App 名称 *</label>
-<input name="name" required>
-</div>
-
-<div class="field">
-<label>类型</label>
-<select name="type">
-<option>工具</option>
-<option>社交</option>
-<option>影音</option>
-<option>学习</option>
-<option>购物</option>
-<option>效率</option>
-<option>其他</option>
-</select>
-</div>
-
-<div class="field">
-<label>数据位置 / 备份方式</label>
-<select name="backup">
-<option>iCloud</option>
-<option>App 云端</option>
-<option>本地手动备份</option>
-<option>电脑 / 硬盘</option>
-<option>其他</option>
-</select>
-</div>
-
-<div class="field">
-<label>需要手动备份</label>
-<select name="need">
-<option value="false">无需备份</option>
-<option value="true">需要备份</option>
-</select>
-</div>
-
-<div class="field">
-<label>绑定账号类型</label>
-<select name="accountType">
-<option>Apple ID</option>
-<option>微信</option>
-<option>QQ 邮箱</option>
-<option>手机号</option>
-<option>邮箱</option>
-<option>其他</option>
-</select>
-</div>
-
-<div class="field">
-<label>绑定账号标识</label>
-<input name="account" placeholder="邮箱或手机号尾号">
-</div>
-
-<div class="field">
-<label>订阅类型</label>
-<select name="plan">
-<option>免费</option>
-<option>月付</option>
-<option>年付</option>
-<option>永久会员</option>
-<option>一次性购买</option>
-</select>
-</div>
-
-<div class="field">
-<label>会员价格</label>
-<input name="price" placeholder="例如 ¥128">
-</div>
-
-<div class="field">
-<label>上次备份日期</label>
-<input name="last" type="date">
-</div>
-
-<div class="field">
-<label>备注</label>
-<input name="notes">
-</div>
-
-<button type="submit" class="primary full">
-保存应用
-</button>
-
-<div class="actions">
-<button type="button" class="secondary"
-onclick="showPage('apps')">取消</button>
-
-<button type="button" class="danger"
-id="deleteButton" onclick="deleteApp()">
-删除
-</button>
-</div>
-
-</form>
-</div>
-</section>
-
-</div>
-
-<button id="addButton" class="fab hidden"
-onclick="newApp()">＋</button>
+<button id="fab" class="fab hidden" onclick="newApp()">＋</button>
 
 <nav id="navbar" class="nav hidden">
-<button data-page="home" class="active" onclick="showPage('home')">
-<span class="symbol">⌂</span>首页
-</button>
-<button data-page="apps" onclick="showPage('apps')">
-<span class="symbol">▦</span>应用
-</button>
-<button data-page="subscriptions" onclick="showPage('subscriptions')">
-<span class="symbol">◇</span>会员
-</button>
-<button data-page="settings" onclick="showPage('settings')">
-<span class="symbol">⚙</span>设置
-</button>
+  <button data-page="overview" class="active" onclick="showPage('overview')">
+    <span class="symbol">⌂</span>总览
+  </button>
+  <button data-page="subscriptions" onclick="showPage('subscriptions')">
+    <span class="symbol">▦</span>订阅
+  </button>
+  <button data-page="calendarPage" onclick="showPage('calendarPage')">
+    <span class="symbol">▣</span>日历
+  </button>
+  <button data-page="analytics" onclick="showPage('analytics')">
+    <span class="symbol">▥</span>分析
+  </button>
+  <button data-page="walletPage" onclick="showPage('walletPage')">
+    <span class="symbol">▤</span>钱包
+  </button>
+  <button data-page="settings" onclick="showPage('settings')">
+    <span class="symbol">⚙</span>设置
+  </button>
 </nav>
 
+<input type="file" id="importFile" accept=".json" class="hidden">
+
 <script>
-const STORAGE_KEY="bella_secure_apps_v3";
+"use strict";
+
+const KEY="bella_subscription_manager_v1";
 const $=id=>document.getElementById(id);
+const enc=new TextEncoder();
+const dec=new TextDecoder();
 
 let apps=[];
-let editId=null;
-let secretKey=null;
+let transactions=[];
 let vault=null;
+let cryptoKey=null;
+let editId=null;
+let filter="all";
+let currentMonth=new Date();
 let busy=false;
 
-const encoder=new TextEncoder();
-const decoder=new TextDecoder();
-
-function toBase64(bytes){
-let s="";
-for(const b of bytes)s+=String.fromCharCode(b);
-return btoa(s);
+function safe(s){
+  return String(s??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",
+    '"':"&quot;","'":"&#39;"
+  })[c]);
 }
 
-function fromBase64(s){
-return Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+function money(n,c="CNY"){
+  const symbols={
+    CNY:"¥",USD:"$",SGD:"S$",HKD:"HK$",EUR:"€"
+  };
+  const value=Number(n);
+  return (symbols[c]||c+" ")+
+    (Number.isFinite(value)?value:0).toFixed(2);
 }
 
-function randomBytes(n){
-return crypto.getRandomValues(new Uint8Array(n));
+function bytes(n){
+  return crypto.getRandomValues(new Uint8Array(n));
 }
 
-function escapeHTML(s){
-return String(s??"").replace(/[&<>"']/g,c=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#39;"
-})[c]);
+function b64(a){
+  let s="";
+  for(const x of a)s+=String.fromCharCode(x);
+  return btoa(s);
 }
 
-async function deriveKey(password,salt){
-const base=await crypto.subtle.importKey(
-"raw",encoder.encode(password),
-"PBKDF2",false,["deriveKey"]
-);
-
-return crypto.subtle.deriveKey(
-{
-name:"PBKDF2",
-salt,
-iterations:310000,
-hash:"SHA-256"
-},
-base,
-{name:"AES-GCM",length:256},
-false,
-["encrypt","decrypt"]
-);
+function un64(s){
+  return Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 }
 
-async function encryptData(data,key,salt){
-const iv=randomBytes(12);
+async function derive(password,salt){
+  const base=await crypto.subtle.importKey(
+    "raw",enc.encode(password),"PBKDF2",false,["deriveKey"]
+  );
+  return crypto.subtle.deriveKey(
+    {
+      name:"PBKDF2",salt,
+      iterations:310000,hash:"SHA-256"
+    },
+    base,{name:"AES-GCM",length:256},
+    false,["encrypt","decrypt"]
+  );
+}
 
-const encrypted=await crypto.subtle.encrypt(
-{name:"AES-GCM",iv},
-key,
-encoder.encode(JSON.stringify(data))
-);
-
-return {
-version:1,
-iterations:310000,
-salt:toBase64(salt),
-iv:toBase64(iv),
-ciphertext:toBase64(new Uint8Array(encrypted))
-};
+async function encrypt(data,key,salt){
+  const iv=bytes(12);
+  const cipher=await crypto.subtle.encrypt(
+    {name:"AES-GCM",iv},
+    key,enc.encode(JSON.stringify(data))
+  );
+  return {
+    version:1,
+    salt:b64(salt),
+    iv:b64(iv),
+    ciphertext:b64(new Uint8Array(cipher))
+  };
 }
 
 function validVault(v){
-return v &&
-v.version===1 &&
-v.iterations===310000 &&
-typeof v.salt==="string" &&
-typeof v.iv==="string" &&
-typeof v.ciphertext==="string";
+  return v&&v.version===1&&
+    typeof v.salt==="string"&&
+    typeof v.iv==="string"&&
+    typeof v.ciphertext==="string";
 }
 
-async function decryptData(v,key){
-if(!validVault(v))throw Error("备份格式错误");
-
-const result=await crypto.subtle.decrypt(
-{name:"AES-GCM",iv:fromBase64(v.iv)},
-key,
-fromBase64(v.ciphertext)
-);
-
-const data=JSON.parse(decoder.decode(result));
-
-if(!Array.isArray(data) ||
-!data.every(a=>a&&typeof a.name==="string")){
-throw Error("数据格式错误");
+async function decrypt(v,key){
+  if(!validVault(v))throw Error("加密文件格式错误");
+  const raw=await crypto.subtle.decrypt(
+    {name:"AES-GCM",iv:un64(v.iv)},
+    key,un64(v.ciphertext)
+  );
+  const data=JSON.parse(dec.decode(raw));
+  if(!data||!Array.isArray(data.apps)||
+     !Array.isArray(data.transactions)){
+    throw Error("资料库格式错误");
+  }
+  return data;
 }
 
-return data;
+function readVault(){
+  try{
+    return JSON.parse(localStorage.getItem(KEY)||"null");
+  }catch{
+    return null;
+  }
 }
 
-function loadVault(){
-try{
-return JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");
-}catch{
-return null;
-}
-}
-
-function updateLockScreen(){
-vault=loadVault();
-const exists=!!vault;
-
-$("lockHint").textContent=exists
-?"输入主密码解锁"
-:"首次使用，请设置至少12位主密码";
-
-$("passwordConfirm").classList.toggle("hidden",exists);
-$("unlockButton").textContent=exists?"解锁":"创建资料库";
-$("lockError").textContent="";
+function lockUI(){
+  vault=readVault();
+  $("lockHint").textContent=vault
+    ?"输入主密码解锁资料库"
+    :"首次使用，请设置至少12位主密码";
+  $("confirmPassword").classList.toggle("hidden",!!vault);
+  $("unlockBtn").textContent=vault?"解锁":"创建资料库";
+  $("lockError").textContent="";
 }
 
-$("unlockForm").onsubmit=async e=>{
-e.preventDefault();
-if(busy)return;
-
-busy=true;
-$("unlockButton").disabled=true;
-$("lockError").textContent="";
-
-try{
-if(!crypto.subtle){
-throw Error("请使用 HTTPS 和新版 Safari");
+async function persist(){
+  if(!cryptoKey)throw Error("资料库未解锁");
+  const next=await encrypt(
+    {apps,transactions},
+    cryptoKey,un64(vault.salt)
+  );
+  localStorage.setItem(KEY,JSON.stringify(next));
+  vault=next;
 }
 
-const password=$("password").value;
-
-if(!vault){
-if(password.length<12){
-throw Error("主密码至少12位");
-}
-
-if(password!==$("passwordConfirm").value){
-throw Error("两次密码不一致");
-}
-
-const salt=randomBytes(16);
-secretKey=await deriveKey(password,salt);
-apps=[];
-vault=await encryptData(apps,secretKey,salt);
-localStorage.setItem(STORAGE_KEY,JSON.stringify(vault));
-
-}else{
-secretKey=await deriveKey(
-password,fromBase64(vault.salt)
-);
-apps=await decryptData(vault,secretKey);
-}
-
-$("password").value="";
-$("passwordConfirm").value="";
-$("lockscreen").classList.add("hidden");
-$("mainApp").classList.remove("hidden");
-$("navbar").classList.remove("hidden");
-$("addButton").classList.remove("hidden");
-
-showPage("home");
-
-}catch(err){
-secretKey=null;
-$("lockError").textContent="操作失败："+err.message;
-}finally{
-busy=false;
-$("unlockButton").disabled=false;
-}
+$("lockForm").onsubmit=async e=>{
+  e.preventDefault();
+  if(busy)return;
+  busy=true;
+  $("unlockBtn").disabled=true;
+  $("lockError").textContent="";
+  try{
+    if(!crypto.subtle)throw Error("请使用 HTTPS 和新版 Safari");
+    const password=$("password").value;
+    if(!vault){
+      if(password.length<12)throw Error("主密码至少12位");
+      if(password!==$("confirmPassword").value){
+        throw Error("两次密码不一致");
+      }
+      const salt=bytes(16);
+      cryptoKey=await derive(password,salt);
+      apps=[];
+      transactions=[];
+      vault=await encrypt({apps,transactions},cryptoKey,salt);
+      localStorage.setItem(KEY,JSON.stringify(vault));
+    }else{
+      cryptoKey=await derive(password,un64(vault.salt));
+      const data=await decrypt(vault,cryptoKey);
+      apps=data.apps;
+      transactions=data.transactions;
+    }
+    $("password").value="";
+    $("confirmPassword").value="";
+    $("lockscreen").classList.add("hidden");
+    $("mainApp").classList.remove("hidden");
+    $("navbar").classList.remove("hidden");
+    $("fab").classList.remove("hidden");
+    showPage("overview");
+  }catch(err){
+    cryptoKey=null;
+    $("lockError").textContent="解锁或创建失败："+err.message;
+  }finally{
+    busy=false;
+    $("unlockBtn").disabled=false;
+  }
 };
-
-async function saveData(){
-if(!secretKey)throw Error("尚未解锁");
-
-const encrypted=await encryptData(
-apps,secretKey,fromBase64(vault.salt)
-);
-
-localStorage.setItem(
-STORAGE_KEY,JSON.stringify(encrypted)
-);
-
-vault=encrypted;
-}
 
 function showPage(page){
-document.querySelectorAll(".page").forEach(el=>{
-el.classList.remove("active");
-});
-
-$(page).classList.add("active");
-
-document.querySelectorAll(".nav button").forEach(btn=>{
-btn.classList.toggle("active",btn.dataset.page===page);
-});
-
-const titles={
-home:"My Apps",
-apps:"我的应用",
-subscriptions:"会员管理",
-settings:"设置",
-editor:"应用详情"
-};
-
-$("pageTitle").textContent=titles[page];
-$("addButton").classList.toggle("hidden",page==="editor");
-
-render();
-window.scrollTo(0,0);
+  document.querySelectorAll(".page").forEach(x=>{
+    x.classList.toggle("active",x.id===page);
+  });
+  document.querySelectorAll(".nav button").forEach(x=>{
+    x.classList.toggle("active",x.dataset.page===page);
+  });
+  const titles={
+    overview:"总览",subscriptions:"我的订阅",
+    calendarPage:"续费日历",analytics:"支出分析",
+    walletPage:"我的钱包",settings:"设置",
+    editor:"应用详情"
+  };
+  $("pageTitle").textContent=titles[page];
+  $("fab").classList.toggle("hidden",page==="editor");
+  render();
+  window.scrollTo(0,0);
 }
 
-function cardHTML(a){
-return `
-<div class="card" data-id="${escapeHTML(a.id)}">
-<div class="icon">${escapeHTML(Array.from(a.name||"A")[0])}</div>
-<div class="appname">${escapeHTML(a.name)}</div>
-<div class="category">${escapeHTML(a.type)}</div>
-<div class="price">${escapeHTML(a.plan)}
-${escapeHTML(a.price)}</div>
-<div class="badge ${a.need?"warning":""}">
-${a.need?"需要备份":"已云端管理"}
-</div>
-</div>`;
+function isRecurring(a){
+  return a.plan==="月付"||a.plan==="年付";
+}
+
+function monthlyValue(a){
+  const n=Number(a.price)||0;
+  return a.plan==="月付"?n:
+    a.plan==="年付"?n/12:0;
+}
+
+function currencies(){
+  return [...new Set(
+    apps.filter(isRecurring).map(a=>a.currency||"CNY")
+  )];
+}
+
+function totals(){
+  return currencies().map(c=>{
+    const monthly=apps
+      .filter(a=>isRecurring(a)&&(a.currency||"CNY")===c)
+      .reduce((sum,a)=>sum+monthlyValue(a),0);
+    return {currency:c,monthly,yearly:monthly*12};
+  });
+}
+
+function totalText(period){
+  const t=totals();
+  return t.length
+    ?t.map(x=>money(x[period],x.currency)).join(" / ")
+    :"¥0.00";
+}
+
+function card(a){
+  return `<div class="appcard" data-id="${safe(a.id)}">
+    <div class="icon">${safe(Array.from(a.name||"A")[0])}</div>
+    <div class="appname">${safe(a.name)}</div>
+    <div class="category">${safe(a.category||"其他")}</div>
+    <div class="price">
+      ${money(a.price,a.currency||"CNY")}
+      <small>${a.plan==="月付"?"/月":a.plan==="年付"?"/年":""}</small>
+    </div>
+    <span class="badge ${a.needBackup?"warn":""}">
+      ${a.needBackup?"待备份":safe(a.plan)}
+    </span>
+  </div>`;
 }
 
 function render(){
-$("total").textContent=apps.length;
-$("paid").textContent=apps.filter(a=>a.plan!=="免费").length;
-$("need").textContent=apps.filter(a=>a.need).length;
+  $("appCount").textContent=apps.length;
+  $("activeCount").textContent=apps.filter(isRecurring).length;
+  $("backupCount").textContent=apps.filter(a=>a.needBackup).length;
+  $("lifetimeCount").textContent=
+    "永久会员 "+apps.filter(a=>a.plan==="永久会员").length;
+  $("monthlyTotal").textContent=totalText("monthly");
+  $("yearlyTotal").textContent="年度预计 "+totalText("yearly");
+  $("analysisTotal").textContent=totalText("yearly");
 
-const q=$("search").value.toLowerCase();
+  $("overviewGrid").innerHTML=apps.length
+    ?apps.slice(0,6).map(card).join("")
+    :'<div class="empty">点击 ＋ 添加第一个应用</div>';
 
-const filtered=apps.filter(a=>
-[a.name,a.type,a.account]
-.join(" ").toLowerCase().includes(q)
-);
+  const q=$("search").value.toLowerCase();
+  const list=apps.filter(a=>
+    [a.name,a.category,a.account].join(" ")
+      .toLowerCase().includes(q)
+  ).filter(a=>
+    filter==="all"||
+    (filter==="recurring"&&isRecurring(a))||
+    (filter==="lifetime"&&a.plan==="永久会员")||
+    (filter==="backup"&&a.needBackup)
+  );
 
-$("homeGrid").innerHTML=apps.length
-?apps.slice(0,6).map(cardHTML).join("")
-:'<div class="empty">还没有应用，点击 ＋ 添加</div>';
+  $("subscriptionGrid").innerHTML=list.length
+    ?list.map(card).join("")
+    :'<div class="empty">暂无符合条件的应用</div>';
 
-$("appGrid").innerHTML=filtered.length
-?filtered.map(cardHTML).join("")
-:'<div class="empty">暂无应用</div>';
+  renderUpcoming();
+  renderCalendar();
+  renderAnalysis();
+  renderWallet();
+}
 
-const paid=apps.filter(a=>a.plan!=="免费");
+function renderUpcoming(){
+  const today=new Date().toISOString().slice(0,10);
+  const upcoming=apps.filter(a=>
+    isRecurring(a)&&a.renewal&&a.renewal>=today
+  ).sort((a,b)=>a.renewal.localeCompare(b.renewal)).slice(0,5);
 
-$("subCount").textContent=paid.length;
+  $("upcomingOverview").innerHTML=upcoming.length
+    ?upcoming.map(a=>`
+      <div class="row">
+        <span>${safe(a.renewal)} · ${safe(a.name)}</span>
+        <b>${money(a.price,a.currency||"CNY")}</b>
+      </div>`).join("")
+    :'<div class="empty">暂无即将续费的应用</div>';
+}
 
-$("subscriptionList").innerHTML=paid.length
-?paid.map(a=>`
-<div class="list-item" data-id="${escapeHTML(a.id)}">
-<div class="mini-icon">${escapeHTML(Array.from(a.name)[0])}</div>
-<div class="list-info">
-<b>${escapeHTML(a.name)}</b>
-<small>${escapeHTML(a.plan)}</small>
-</div>
-<b>${escapeHTML(a.price||"未记录")}</b>
-</div>
-`).join("")
-:'<div class="empty">暂无付费应用</div>';
+function renderCalendar(){
+  const y=currentMonth.getFullYear();
+  const m=currentMonth.getMonth();
+  $("monthTitle").textContent=`${y}年 ${m+1}月`;
+
+  const first=new Date(y,m,1).getDay();
+  const days=new Date(y,m+1,0).getDate();
+  const today=new Date().toISOString().slice(0,10);
+
+  let html=["日","一","二","三","四","五","六"]
+    .map(x=>`<div class="weekday">${x}</div>`).join("");
+
+  for(let i=0;i<first;i++)html+="<div></div>";
+
+  for(let d=1;d<=days;d++){
+    const date=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+    const has=apps.some(a=>isRecurring(a)&&a.renewal===date);
+    html+=`<div class="day ${has?"has":""} ${date===today?"today":""}">
+      ${d}${has?"<i>●</i>":""}
+    </div>`;
+  }
+
+  $("calendar").innerHTML=html;
+
+  const prefix=`${y}-${String(m+1).padStart(2,"0")}`;
+  const events=apps.filter(a=>
+    isRecurring(a)&&a.renewal?.startsWith(prefix)
+  ).sort((a,b)=>a.renewal.localeCompare(b.renewal));
+
+  $("calendarEvents").innerHTML=events.length
+    ?events.map(a=>`
+      <div class="row">
+        <span>${safe(a.renewal)} · ${safe(a.name)}</span>
+        <b>${money(a.price,a.currency||"CNY")}</b>
+      </div>`).join("")
+    :'<div class="empty">本月暂无已设置的续费日期</div>';
+}
+
+$("prevMonth").onclick=()=>{
+  currentMonth=new Date(
+    currentMonth.getFullYear(),
+    currentMonth.getMonth()-1,1
+  );
+  renderCalendar();
+};
+
+$("nextMonth").onclick=()=>{
+  currentMonth=new Date(
+    currentMonth.getFullYear(),
+    currentMonth.getMonth()+1,1
+  );
+  renderCalendar();
+};
+
+function renderAnalysis(){
+  const groups={};
+  apps.filter(isRecurring).forEach(a=>{
+    const key=(a.category||"其他")+"|"+(a.currency||"CNY");
+    groups[key]=(groups[key]||0)+monthlyValue(a);
+  });
+
+  const entries=Object.entries(groups).sort((a,b)=>b[1]-a[1]);
+  const max=Math.max(1,...entries.map(x=>x[1]));
+
+  $("categoryAnalysis").innerHTML=entries.length
+    ?entries.map(([key,value])=>{
+      const [category,currency]=key.split("|");
+      return `<div class="analysisrow">
+        <span>${safe(category)}<br><small>${safe(currency)}</small></span>
+        <div class="bar"><div style="width:${value/max*100}%"></div></div>
+        <b>${money(value,currency)}/月</b>
+      </div>`;
+    }).join("")
+    :'<div class="empty">暂无订阅支出</div>';
+
+  const plans=["月付","年付","永久会员","一次性购买","免费"];
+  $("planAnalysis").innerHTML=plans.map(p=>`
+    <div class="row">
+      <span>${p}</span>
+      <b>${apps.filter(a=>a.plan===p).length} 个应用</b>
+    </div>`).join("");
+}
+
+function renderWallet(){
+  const balance=transactions.reduce((sum,t)=>
+    sum+(t.type==="income"?Number(t.amount):-Number(t.amount)),0
+  );
+  $("walletBalance").textContent=money(balance);
+
+  $("transactionList").innerHTML=transactions.length
+    ?transactions.slice().sort((a,b)=>b.date.localeCompare(a.date))
+      .map(t=>`
+      <div class="listitem">
+        <div class="listicon">${t.type==="income"?"＋":"−"}</div>
+        <div class="listtext">
+          <b>${safe(t.note||"钱包交易")}</b>
+          <small>${safe(t.date)}</small>
+        </div>
+        <b style="color:${t.type==="income"?"#198453":"#b93e4f"}">
+          ${t.type==="income"?"+":"−"}${money(t.amount)}
+        </b>
+        <button class="soft" data-delete-transaction="${safe(t.id)}">删除</button>
+      </div>`).join("")
+    :'<div class="empty">暂无交易记录</div>';
 }
 
 function newApp(){
-editId=null;
-$("appForm").reset();
-$("editorTitle").textContent="添加应用";
-$("deleteButton").classList.add("hidden");
-showPage("editor");
+  editId=null;
+  $("appForm").reset();
+  $("editorTitle").textContent="添加应用";
+  $("deleteAppBtn").classList.add("hidden");
+  showPage("editor");
 }
 
 function editApp(id){
-const a=apps.find(x=>x.id===id);
-if(!a)return;
+  const a=apps.find(x=>x.id===id);
+  if(!a)return;
+  editId=id;
+  $("appForm").reset();
 
-editId=id;
-$("appForm").reset();
+  for(const field of $("appForm").elements){
+    if(field.name&&a[field.name]!==undefined){
+      field.value=String(a[field.name]);
+    }
+  }
 
-for(const field of $("appForm").elements){
-if(field.name && a[field.name]!==undefined){
-field.value=String(a[field.name]);
-}
-}
-
-$("editorTitle").textContent="编辑应用";
-$("deleteButton").classList.remove("hidden");
-showPage("editor");
+  $("editorTitle").textContent="编辑应用";
+  $("deleteAppBtn").classList.remove("hidden");
+  showPage("editor");
 }
 
 $("appForm").onsubmit=async e=>{
-e.preventDefault();
+  e.preventDefault();
+  const a=Object.fromEntries(new FormData(e.target));
+  a.name=a.name.trim();
+  if(!a.name)return;
 
-const a=Object.fromEntries(
-new FormData(e.target).entries()
-);
+  a.needBackup=a.needBackup==="true";
+  a.id=editId||crypto.randomUUID();
 
-a.name=a.name.trim();
-if(!a.name)return;
+  const previous=apps;
+  apps=editId
+    ?apps.map(x=>x.id===editId?a:x)
+    :[a,...apps];
 
-a.need=a.need==="true";
-a.id=editId||crypto.randomUUID();
-
-const previous=apps;
-
-apps=editId
-?apps.map(x=>x.id===editId?a:x)
-:[a,...apps];
-
-try{
-await saveData();
-showPage("apps");
-}catch(err){
-apps=previous;
-alert("保存失败："+err.message);
-}
+  try{
+    await persist();
+    showPage("subscriptions");
+  }catch(err){
+    apps=previous;
+    alert("保存失败："+err.message);
+  }
 };
 
-async function deleteApp(){
-if(!editId)return;
-if(!confirm("确定删除这个应用吗？"))return;
+$("deleteAppBtn").onclick=async()=>{
+  if(!editId||!confirm("确定删除这个应用吗？"))return;
+  const previous=apps;
+  apps=apps.filter(a=>a.id!==editId);
+  try{
+    await persist();
+    editId=null;
+    showPage("subscriptions");
+  }catch(err){
+    apps=previous;
+    alert("删除失败："+err.message);
+  }
+};
 
-const previous=apps;
-apps=apps.filter(a=>a.id!==editId);
-
-try{
-await saveData();
-editId=null;
-showPage("apps");
-}catch(err){
-apps=previous;
-alert("删除失败："+err.message);
-}
-}
-
-function bindCardClicks(container){
-$(container).addEventListener("click",e=>{
-const card=e.target.closest("[data-id]");
-if(card)editApp(card.dataset.id);
+["overviewGrid","subscriptionGrid"].forEach(id=>{
+  $(id).onclick=e=>{
+    const el=e.target.closest("[data-id]");
+    if(el)editApp(el.dataset.id);
+  };
 });
-}
 
-bindCardClicks("homeGrid");
-bindCardClicks("appGrid");
-bindCardClicks("subscriptionList");
+document.querySelectorAll("[data-filter]").forEach(btn=>{
+  btn.onclick=()=>{
+    filter=btn.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach(x=>{
+      x.classList.toggle("active",x===btn);
+    });
+    render();
+  };
+});
 
 $("search").oninput=render;
 
-function exportData(){
-if(!vault)return;
+$("transactionDate").value=new Date().toISOString().slice(0,10);
 
-const blob=new Blob(
-[JSON.stringify(vault,null,2)],
-{type:"application/json"}
-);
+$("saveTransaction").onclick=async()=>{
+  const amount=Number($("transactionAmount").value);
+  if(!Number.isFinite(amount)||amount<=0){
+    alert("请输入有效金额");
+    return;
+  }
+  if(!$("transactionDate").value){
+    alert("请选择交易日期");
+    return;
+  }
 
-const url=URL.createObjectURL(blob);
-const a=document.createElement("a");
+  const previous=transactions;
+  transactions=[...transactions,{
+    id:crypto.randomUUID(),
+    type:$("transactionType").value,
+    amount,
+    date:$("transactionDate").value,
+    note:$("transactionNote").value
+  }];
 
-a.href=url;
-a.download="MyApps_加密备份_"+
-new Date().toISOString().slice(0,10)+".json";
-
-a.click();
-
-setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-
-$("importFile").onchange=async e=>{
-const file=e.target.files[0];
-if(!file)return;
-
-try{
-const imported=JSON.parse(await file.text());
-
-if(!validVault(imported)){
-throw Error("请选择加密版备份文件");
-}
-
-const password=prompt("请输入备份文件的原主密码");
-if(password===null)return;
-
-const importKey=await deriveKey(
-password,fromBase64(imported.salt)
-);
-
-const incoming=await decryptData(imported,importKey);
-
-if(!confirm(
-"导入 "+incoming.length+
-" 条记录？这会覆盖当前数据。"
-))return;
-
-const previous=apps;
-apps=incoming.map((a,i)=>({
-...a,
-id:String(a.id||Date.now()+"-"+i),
-need:a.need===true||a.need==="true"
-}));
-
-try{
-await saveData();
-render();
-alert("导入成功");
-}catch(err){
-apps=previous;
-throw err;
-}
-
-}catch(err){
-alert("导入失败："+err.message);
-}finally{
-e.target.value="";
-}
+  try{
+    await persist();
+    $("transactionAmount").value="";
+    $("transactionNote").value="";
+    renderWallet();
+  }catch(err){
+    transactions=previous;
+    alert("保存失败："+err.message);
+  }
 };
 
-function lockApp(){
-apps=[];
-secretKey=null;
-editId=null;
+$("transactionList").onclick=async e=>{
+  const btn=e.target.closest("[data-delete-transaction]");
+  if(!btn||!confirm("确定删除这条交易吗？"))return;
+  const previous=transactions;
+  transactions=transactions.filter(t=>
+    t.id!==btn.dataset.deleteTransaction
+  );
+  try{
+    await persist();
+    renderWallet();
+  }catch(err){
+    transactions=previous;
+    alert("删除失败："+err.message);
+  }
+};
 
-$("mainApp").classList.add("hidden");
-$("navbar").classList.add("hidden");
-$("addButton").classList.add("hidden");
-$("lockscreen").classList.remove("hidden");
+$("exportBtn").onclick=()=>{
+  if(!vault)return;
+  const blob=new Blob(
+    [JSON.stringify(vault,null,2)],
+    {type:"application/json"}
+  );
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+  link.href=url;
+  link.download="我的订阅_加密备份_"+
+    new Date().toISOString().slice(0,10)+".json";
+  link.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
 
-updateLockScreen();
-}
+$("importBtn").onclick=()=>$("importFile").click();
+
+$("importFile").onchange=async e=>{
+  const file=e.target.files[0];
+  if(!file)return;
+
+  try{
+    const imported=JSON.parse(await file.text());
+    if(!validVault(imported)){
+      throw Error("请选择本版本导出的加密备份");
+    }
+
+    const password=prompt("请输入备份文件原来的主密码");
+    if(password===null)return;
+
+    const key=await derive(password,un64(imported.salt));
+    const data=await decrypt(imported,key);
+
+    if(!confirm(
+      "导入将覆盖当前所有应用和钱包记录，确定继续吗？"
+    ))return;
+
+    const oldApps=apps;
+    const oldTransactions=transactions;
+
+    apps=data.apps;
+    transactions=data.transactions;
+
+    try{
+      await persist();
+      render();
+      alert("导入成功");
+    }catch(err){
+      apps=oldApps;
+      transactions=oldTransactions;
+      throw err;
+    }
+  }catch(err){
+    alert("导入失败："+err.message);
+  }finally{
+    e.target.value="";
+  }
+};
+
+$("lockBtn").onclick=()=>{
+  apps=[];
+  transactions=[];
+  cryptoKey=null;
+  editId=null;
+  $("mainApp").classList.add("hidden");
+  $("navbar").classList.add("hidden");
+  $("fab").classList.add("hidden");
+  $("lockscreen").classList.remove("hidden");
+  lockUI();
+};
 
 window.addEventListener("pagehide",()=>{
-apps=[];
-secretKey=null;
+  apps=[];
+  transactions=[];
+  cryptoKey=null;
 });
 
-updateLockScreen();
+lockUI();
 </script>
 </body>
 </html>
