@@ -2,320 +2,1054 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bella 的 App 管家</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f6f7fb">
+<title>My Apps</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#f5f5f7;color:#1d1d1f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:1150px;margin:auto;padding:30px 18px}
-h1{font-size:32px;margin:0}
-.sub{color:#86868b;margin:8px 0 25px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.stat,.card,.panel{background:white;border-radius:20px;padding:20px;box-shadow:0 5px 22px #00000008}
-.stat strong{font-size:30px;display:block;color:#5856d6}
-.stat span{font-size:13px;color:#86868b}
-.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}
-input,select{font:inherit;padding:11px;border:1px solid #dedee3;border-radius:11px;width:100%;min-width:0}
-.toolbar input{flex:1;min-width:180px}
-button{border:0;background:#5856d6;color:white;border-radius:11px;padding:11px 15px;cursor:pointer;font-weight:600}
-.secondary{background:#e9e9f1;color:#34344a}
-.danger{background:#ffe9e9;color:#b42339}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.card{min-width:0}
-.top{display:flex;align-items:center;gap:13px}
-.icon{width:58px;height:58px;border-radius:17px;background:linear-gradient(135deg,#7c6cf0,#42c5da);display:grid;place-items:center;color:white;font-size:25px;font-weight:bold;flex-shrink:0}
-.name{font-size:18px;font-weight:700;overflow-wrap:anywhere}
-.muted{font-size:12px;color:#86868b;margin-top:4px}
-.badge{display:inline-block;background:#e8f8ee;color:#16804b;border-radius:8px;padding:6px 10px;margin:15px 0;font-size:12px}
-.badge.need{background:#fff1df;color:#af650c}
-.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid #f0f0f2;font-size:13px}
-.row span{color:#86868b}
-.row b{text-align:right;overflow-wrap:anywhere}
-.actions{display:flex;gap:8px;margin-top:12px}
+
+:root{
+--bg:#f6f7fb;
+--card:#ffffff;
+--text:#202333;
+--muted:#9296a7;
+--primary:#7465e9;
+--line:#eef0f5;
+}
+
+body{
+margin:0;
+background:var(--bg);
+color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+}
+
+button,input,select{font:inherit}
+
+button{cursor:pointer}
+
+.app{
+max-width:680px;
+margin:auto;
+min-height:100vh;
+padding:25px 20px 110px;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+h1{
+font-size:32px;
+margin:0;
+letter-spacing:-1px;
+}
+
+.subtitle{
+color:var(--muted);
+font-size:14px;
+margin-top:7px;
+}
+
+.avatar{
+width:45px;
+height:45px;
+border-radius:50%;
+background:#e8e4ff;
+display:grid;
+place-items:center;
+font-size:23px;
+}
+
+.summary{
+background:linear-gradient(135deg,#8274f1,#a397fa);
+color:white;
+border-radius:25px;
+padding:25px;
+margin-bottom:25px;
+}
+
+.summary small{opacity:.85}
+
+.summary strong{
+display:block;
+font-size:38px;
+margin:10px 0;
+}
+
+.summary-bottom{
+display:flex;
+justify-content:space-between;
+font-size:13px;
+margin-top:18px;
+}
+
+.section-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:25px 0 15px;
+}
+
+.section-title h2{
+font-size:19px;
+margin:0;
+}
+
+.link{
+background:none;
+border:0;
+color:var(--primary);
+font-weight:600;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:14px;
+}
+
+.card{
+background:white;
+border-radius:22px;
+padding:18px;
+box-shadow:0 4px 20px #20233308;
+min-width:0;
+}
+
+.icon{
+width:56px;
+height:56px;
+border-radius:17px;
+background:linear-gradient(135deg,#8b7cf4,#54bce8);
+display:grid;
+place-items:center;
+font-size:25px;
+font-weight:700;
+color:white;
+margin-bottom:14px;
+}
+
+.appname{
+font-weight:700;
+font-size:17px;
+overflow-wrap:anywhere;
+}
+
+.category{
+color:var(--muted);
+font-size:12px;
+margin-top:5px;
+}
+
+.price{
+font-size:14px;
+font-weight:700;
+margin-top:15px;
+}
+
+.badge{
+display:inline-block;
+padding:5px 9px;
+border-radius:8px;
+background:#e8f7ee;
+color:#198453;
+font-size:11px;
+margin-top:10px;
+}
+
+.badge.warning{
+background:#fff2df;
+color:#b77315;
+}
+
+.nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#ffffffed;
+backdrop-filter:blur(20px);
+border-top:1px solid var(--line);
+display:flex;
+justify-content:space-around;
+padding:12px 0 calc(12px + env(safe-area-inset-bottom));
+z-index:10;
+}
+
+.nav button{
+background:none;
+border:0;
+color:#a0a4b2;
+font-size:12px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:5px;
+}
+
+.nav button.active{color:var(--primary)}
+
+.nav .symbol{font-size:24px}
+
+.fab{
+position:fixed;
+bottom:95px;
+right:max(22px,calc((100vw - 680px)/2 + 22px));
+width:58px;
+height:58px;
+border-radius:19px;
+background:var(--primary);
+color:white;
+border:0;
+font-size:30px;
+box-shadow:0 8px 22px #7465e950;
+z-index:5;
+}
+
+.page{display:none}
+.page.active{display:block}
+
+.list{
+background:white;
+border-radius:20px;
+overflow:hidden;
+}
+
+.list-item{
+display:flex;
+align-items:center;
+gap:13px;
+padding:16px;
+border-bottom:1px solid var(--line);
+cursor:pointer;
+}
+
+.list-item:last-child{border:0}
+
+.mini-icon{
+width:45px;
+height:45px;
+border-radius:13px;
+background:#edeaff;
+color:var(--primary);
+display:grid;
+place-items:center;
+font-size:20px;
+font-weight:700;
+flex-shrink:0;
+}
+
+.list-info{flex:1;min-width:0}
+.list-info b{display:block;overflow-wrap:anywhere}
+.list-info small{color:var(--muted)}
+
+.panel{
+background:white;
+border-radius:22px;
+padding:20px;
+margin-top:20px;
+}
+
+.field{margin-bottom:16px}
+
+.field label{
+display:block;
+font-size:13px;
+color:#777d90;
+margin-bottom:7px;
+}
+
+input,select{
+width:100%;
+border:1px solid #e5e7ef;
+border-radius:12px;
+padding:13px;
+background:#fafbff;
+color:var(--text);
+min-width:0;
+}
+
+.primary{
+background:var(--primary);
+color:white;
+border:0;
+border-radius:13px;
+padding:14px 20px;
+font-weight:650;
+}
+
+.secondary{
+background:#eeecfb;
+color:#6256cc;
+border:0;
+border-radius:13px;
+padding:13px;
+}
+
+.danger{
+background:#fff0f0;
+color:#c13b4d;
+border:0;
+border-radius:13px;
+padding:13px;
+}
+
+.full{width:100%}
+
+.actions{
+display:flex;
+gap:10px;
+margin-top:15px;
+}
+
 .actions button{flex:1}
-.panel{display:none;margin-bottom:20px}
-.panel.show{display:block}
-.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-label{font-size:13px;color:#555}
-label input,label select{margin-top:6px}
-.formbuttons{display:flex;gap:10px;margin-top:20px}
-.tablewrap{overflow-x:auto;background:white;border-radius:18px}
-table{width:100%;border-collapse:collapse;min-width:780px}
-th,td{text-align:left;padding:15px;border-bottom:1px solid #eee;font-size:13px}
-th{color:#86868b;background:#fafafa}
-td button{margin:2px}
-.notice{background:#fff8e8;padding:15px;border-radius:12px;margin-top:25px;font-size:13px;color:#80631c}
-.empty{text-align:center;padding:45px;color:#86868b;grid-column:1/-1}
-@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:580px){.grid,.fields{grid-template-columns:1fr}.stat{padding:13px}.stat strong{font-size:24px}h1{font-size:26px}}
+
+.setting{
+padding:17px;
+border-bottom:1px solid var(--line);
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+}
+
+.setting:last-child{border:0}
+
+.setting button{
+border:0;
+background:none;
+color:var(--primary);
+font-weight:600;
+}
+
+.empty{
+text-align:center;
+color:var(--muted);
+padding:40px 10px;
+}
+
+#lockscreen{
+position:fixed;
+inset:0;
+background:var(--bg);
+z-index:100;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.lockbox{
+background:white;
+border-radius:26px;
+padding:28px;
+width:100%;
+max-width:390px;
+text-align:center;
+}
+
+.lockbox h2{font-size:25px}
+
+.lockbox input{margin:10px 0}
+
+.hidden{display:none!important}
+
+@media(max-width:360px){
+.grid{gap:10px}
+.card{padding:13px}
+.app{padding-left:13px;padding-right:13px}
+}
 </style>
 </head>
+
 <body>
-<main>
-<h1>✨ Bella 的 App 管家</h1>
-<p class="sub">📱 我的应用 · ☁️ 数据备份 · 💎 会员资产</p>
 
-<div class="stats">
-<div class="stat"><strong id="total">0</strong><span>全部 App</span></div>
-<div class="stat"><strong id="needCount">0</strong><span>需要备份</span></div>
-<div class="stat"><strong id="paidCount">0</strong><span>付费 App</span></div>
+<div id="lockscreen">
+<div class="lockbox">
+<div style="font-size:55px">🔐</div>
+<h2>My Apps</h2>
+<p id="lockHint" class="subtitle"></p>
+
+<form id="unlockForm">
+<input id="password" type="password"
+placeholder="输入主密码" required>
+
+<input id="passwordConfirm" type="password"
+placeholder="再次输入主密码">
+
+<button class="primary full" type="submit"
+id="unlockButton">解锁</button>
+</form>
+
+<p id="lockError" style="color:#c13b4d;font-size:13px"></p>
+</div>
 </div>
 
-<div class="toolbar">
-<input id="search" placeholder="🔍 搜索 App、账号、类型">
-<button id="add">＋ 添加 App</button>
-<button class="secondary" id="toggle">📋 切换表格</button>
-<button class="secondary" id="export">↓ 导出</button>
-<button class="secondary" id="import">↑ 导入</button>
-<input id="file" type="file" accept=".json" hidden>
+<div class="app hidden" id="mainApp">
+
+<div class="header">
+<div>
+<h1 id="pageTitle">My Apps</h1>
+<div class="subtitle">Your digital collection ✨</div>
+</div>
+<div class="avatar">🌷</div>
 </div>
 
-<section class="panel" id="panel">
-<h2 id="formTitle">添加 App</h2>
-<form id="form">
-<div class="fields">
-<label>App 名称 *
-<input name="name" required placeholder="例如：微信"></label>
-<label>类型
-<input name="type" placeholder="社交 / 工具 / 影音"></label>
-<label>数据位置 / 备份方式
+<section id="home" class="page active">
+
+<div class="summary">
+<small>我的数字资产</small>
+<strong id="total">0</strong>
+<small>已收藏的应用</small>
+
+<div class="summary-bottom">
+<span>💎 付费会员 <b id="paid">0</b></span>
+<span>☁️ 待备份 <b id="need">0</b></span>
+</div>
+</div>
+
+<div class="section-title">
+<h2>我的应用</h2>
+<button class="link" onclick="showPage('apps')">
+查看全部 →
+</button>
+</div>
+
+<div id="homeGrid" class="grid"></div>
+
+</section>
+
+<section id="apps" class="page">
+
+<div class="field">
+<input id="search" placeholder="🔍 搜索应用">
+</div>
+
+<div id="appGrid" class="grid"></div>
+
+</section>
+
+<section id="subscriptions" class="page">
+
+<div class="summary">
+<small>我的付费应用</small>
+<strong id="subCount">0</strong>
+<small>会员与数字资产</small>
+</div>
+
+<div class="section-title">
+<h2>会员列表</h2>
+</div>
+
+<div id="subscriptionList" class="list"></div>
+
+</section>
+
+<section id="settings" class="page">
+
+<div class="section-title">
+<h2>数据管理</h2>
+</div>
+
+<div class="list">
+<div class="setting">
+<span>📤 加密导出</span>
+<button onclick="exportData()">导出</button>
+</div>
+
+<div class="setting">
+<span>📥 导入备份</span>
+<button onclick="document.getElementById('importFile').click()">
+导入
+</button>
+</div>
+
+<div class="setting">
+<span>🔐 锁定应用</span>
+<button onclick="lockApp()">锁定</button>
+</div>
+</div>
+
+<input id="importFile" type="file"
+accept=".json" class="hidden">
+
+</section>
+
+<section id="editor" class="page">
+
+<div class="panel">
+
+<h2 id="editorTitle">添加应用</h2>
+
+<form id="appForm">
+
+<div class="field">
+<label>App 名称 *</label>
+<input name="name" required>
+</div>
+
+<div class="field">
+<label>类型</label>
+<select name="type">
+<option>工具</option>
+<option>社交</option>
+<option>影音</option>
+<option>学习</option>
+<option>购物</option>
+<option>效率</option>
+<option>其他</option>
+</select>
+</div>
+
+<div class="field">
+<label>数据位置 / 备份方式</label>
 <select name="backup">
 <option>iCloud</option>
 <option>App 云端</option>
 <option>本地手动备份</option>
 <option>电脑 / 硬盘</option>
 <option>其他</option>
-</select></label>
-<label>是否需要手动备份
+</select>
+</div>
+
+<div class="field">
+<label>需要手动备份</label>
 <select name="need">
 <option value="false">无需备份</option>
 <option value="true">需要备份</option>
-</select></label>
-<label>绑定账号类型
+</select>
+</div>
+
+<div class="field">
+<label>绑定账号类型</label>
 <select name="accountType">
+<option>Apple ID</option>
 <option>微信</option>
 <option>QQ 邮箱</option>
 <option>手机号</option>
-<option>Apple ID</option>
 <option>邮箱</option>
 <option>其他</option>
-</select></label>
-<label>账号标识（不要填写密码）
-<input name="account" placeholder="邮箱或手机号尾号"></label>
-<label>费用 / 订阅
+</select>
+</div>
+
+<div class="field">
+<label>绑定账号标识</label>
+<input name="account" placeholder="邮箱或手机号尾号">
+</div>
+
+<div class="field">
+<label>订阅类型</label>
 <select name="plan">
 <option>免费</option>
 <option>月付</option>
 <option>年付</option>
 <option>永久会员</option>
 <option>一次性购买</option>
-</select></label>
-<label>价格
-<input name="price" placeholder="例如：¥128"></label>
-<label>上次备份日期
-<input name="last" type="date"></label>
-<label>备注
-<input name="notes" placeholder="续费日期、数据位置等"></label>
+</select>
 </div>
-<div class="formbuttons">
-<button type="submit">保存 App</button>
-<button type="button" class="secondary" id="cancel">取消</button>
+
+<div class="field">
+<label>会员价格</label>
+<input name="price" placeholder="例如 ¥128">
 </div>
+
+<div class="field">
+<label>上次备份日期</label>
+<input name="last" type="date">
+</div>
+
+<div class="field">
+<label>备注</label>
+<input name="notes">
+</div>
+
+<button type="submit" class="primary full">
+保存应用
+</button>
+
+<div class="actions">
+<button type="button" class="secondary"
+onclick="showPage('apps')">取消</button>
+
+<button type="button" class="danger"
+id="deleteButton" onclick="deleteApp()">
+删除
+</button>
+</div>
+
 </form>
+</div>
 </section>
 
-<div id="content"></div>
-
-<div class="notice">
-🔒 记录保存在当前浏览器，不会上传到 GitHub。
-手机和电脑的数据不会自动同步，请定期导出 JSON 备份。
-不要填写账号密码。
 </div>
-</main>
+
+<button id="addButton" class="fab hidden"
+onclick="newApp()">＋</button>
+
+<nav id="navbar" class="nav hidden">
+<button data-page="home" class="active" onclick="showPage('home')">
+<span class="symbol">⌂</span>首页
+</button>
+<button data-page="apps" onclick="showPage('apps')">
+<span class="symbol">▦</span>应用
+</button>
+<button data-page="subscriptions" onclick="showPage('subscriptions')">
+<span class="symbol">◇</span>会员
+</button>
+<button data-page="settings" onclick="showPage('settings')">
+<span class="symbol">⚙</span>设置
+</button>
+</nav>
 
 <script>
-const KEY="bella_app_manager_v2";
+const STORAGE_KEY="bella_secure_apps_v3";
 const $=id=>document.getElementById(id);
+
 let apps=[];
 let editId=null;
-let view="grid";
+let secretKey=null;
+let vault=null;
+let busy=false;
+
+const encoder=new TextEncoder();
+const decoder=new TextDecoder();
+
+function toBase64(bytes){
+let s="";
+for(const b of bytes)s+=String.fromCharCode(b);
+return btoa(s);
+}
+
+function fromBase64(s){
+return Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+}
+
+function randomBytes(n){
+return crypto.getRandomValues(new Uint8Array(n));
+}
+
+function escapeHTML(s){
+return String(s??"").replace(/[&<>"']/g,c=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#39;"
+})[c]);
+}
+
+async function deriveKey(password,salt){
+const base=await crypto.subtle.importKey(
+"raw",encoder.encode(password),
+"PBKDF2",false,["deriveKey"]
+);
+
+return crypto.subtle.deriveKey(
+{
+name:"PBKDF2",
+salt,
+iterations:310000,
+hash:"SHA-256"
+},
+base,
+{name:"AES-GCM",length:256},
+false,
+["encrypt","decrypt"]
+);
+}
+
+async function encryptData(data,key,salt){
+const iv=randomBytes(12);
+
+const encrypted=await crypto.subtle.encrypt(
+{name:"AES-GCM",iv},
+key,
+encoder.encode(JSON.stringify(data))
+);
+
+return {
+version:1,
+iterations:310000,
+salt:toBase64(salt),
+iv:toBase64(iv),
+ciphertext:toBase64(new Uint8Array(encrypted))
+};
+}
+
+function validVault(v){
+return v &&
+v.version===1 &&
+v.iterations===310000 &&
+typeof v.salt==="string" &&
+typeof v.iv==="string" &&
+typeof v.ciphertext==="string";
+}
+
+async function decryptData(v,key){
+if(!validVault(v))throw Error("备份格式错误");
+
+const result=await crypto.subtle.decrypt(
+{name:"AES-GCM",iv:fromBase64(v.iv)},
+key,
+fromBase64(v.ciphertext)
+);
+
+const data=JSON.parse(decoder.decode(result));
+
+if(!Array.isArray(data) ||
+!data.every(a=>a&&typeof a.name==="string")){
+throw Error("数据格式错误");
+}
+
+return data;
+}
+
+function loadVault(){
+try{
+return JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");
+}catch{
+return null;
+}
+}
+
+function updateLockScreen(){
+vault=loadVault();
+const exists=!!vault;
+
+$("lockHint").textContent=exists
+?"输入主密码解锁"
+:"首次使用，请设置至少12位主密码";
+
+$("passwordConfirm").classList.toggle("hidden",exists);
+$("unlockButton").textContent=exists?"解锁":"创建资料库";
+$("lockError").textContent="";
+}
+
+$("unlockForm").onsubmit=async e=>{
+e.preventDefault();
+if(busy)return;
+
+busy=true;
+$("unlockButton").disabled=true;
+$("lockError").textContent="";
 
 try{
- const saved=JSON.parse(localStorage.getItem(KEY)||"[]");
- if(Array.isArray(saved))apps=saved;
-}catch(e){}
-
-function safe(v){
- return String(v??"").replace(/[&<>"']/g,c=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",
- '"':"&quot;","'":"&#39;"
- })[c]);
+if(!crypto.subtle){
+throw Error("请使用 HTTPS 和新版 Safari");
 }
 
-function save(){
- try{
-  localStorage.setItem(KEY,JSON.stringify(apps));
- }catch(e){
-  alert("保存失败，请检查浏览器存储空间。");
- }
+const password=$("password").value;
+
+if(!vault){
+if(password.length<12){
+throw Error("主密码至少12位");
 }
 
-function actionButtons(a){
- return `<div class="actions">
- <button class="secondary" data-edit="${safe(a.id)}">编辑</button>
- <button class="danger" data-delete="${safe(a.id)}">删除</button>
- </div>`;
+if(password!==$("passwordConfirm").value){
+throw Error("两次密码不一致");
+}
+
+const salt=randomBytes(16);
+secretKey=await deriveKey(password,salt);
+apps=[];
+vault=await encryptData(apps,secretKey,salt);
+localStorage.setItem(STORAGE_KEY,JSON.stringify(vault));
+
+}else{
+secretKey=await deriveKey(
+password,fromBase64(vault.salt)
+);
+apps=await decryptData(vault,secretKey);
+}
+
+$("password").value="";
+$("passwordConfirm").value="";
+$("lockscreen").classList.add("hidden");
+$("mainApp").classList.remove("hidden");
+$("navbar").classList.remove("hidden");
+$("addButton").classList.remove("hidden");
+
+showPage("home");
+
+}catch(err){
+secretKey=null;
+$("lockError").textContent="操作失败："+err.message;
+}finally{
+busy=false;
+$("unlockButton").disabled=false;
+}
+};
+
+async function saveData(){
+if(!secretKey)throw Error("尚未解锁");
+
+const encrypted=await encryptData(
+apps,secretKey,fromBase64(vault.salt)
+);
+
+localStorage.setItem(
+STORAGE_KEY,JSON.stringify(encrypted)
+);
+
+vault=encrypted;
+}
+
+function showPage(page){
+document.querySelectorAll(".page").forEach(el=>{
+el.classList.remove("active");
+});
+
+$(page).classList.add("active");
+
+document.querySelectorAll(".nav button").forEach(btn=>{
+btn.classList.toggle("active",btn.dataset.page===page);
+});
+
+const titles={
+home:"My Apps",
+apps:"我的应用",
+subscriptions:"会员管理",
+settings:"设置",
+editor:"应用详情"
+};
+
+$("pageTitle").textContent=titles[page];
+$("addButton").classList.toggle("hidden",page==="editor");
+
+render();
+window.scrollTo(0,0);
+}
+
+function cardHTML(a){
+return `
+<div class="card" data-id="${escapeHTML(a.id)}">
+<div class="icon">${escapeHTML(Array.from(a.name||"A")[0])}</div>
+<div class="appname">${escapeHTML(a.name)}</div>
+<div class="category">${escapeHTML(a.type)}</div>
+<div class="price">${escapeHTML(a.plan)}
+${escapeHTML(a.price)}</div>
+<div class="badge ${a.need?"warning":""}">
+${a.need?"需要备份":"已云端管理"}
+</div>
+</div>`;
 }
 
 function render(){
- const q=$("search").value.toLowerCase();
- $("total").textContent=apps.length;
- $("needCount").textContent=apps.filter(a=>a.need).length;
- $("paidCount").textContent=apps.filter(a=>a.plan!=="免费").length;
+$("total").textContent=apps.length;
+$("paid").textContent=apps.filter(a=>a.plan!=="免费").length;
+$("need").textContent=apps.filter(a=>a.need).length;
 
- const list=apps.filter(a=>
- [a.name,a.type,a.account,a.accountType]
- .join(" ").toLowerCase().includes(q));
+const q=$("search").value.toLowerCase();
 
- if(view==="grid"){
- $("content").innerHTML=`<div class="grid">${
- list.length?list.map(a=>`
- <article class="card">
- <div class="top">
- <div class="icon">${safe(Array.from(a.name||"A")[0])}</div>
- <div><div class="name">${safe(a.name)}</div>
- <div class="muted">${safe(a.type||"未分类")}</div></div>
- </div>
- <span class="badge ${a.need?"need":""}">
- ${a.need?"⚠ 需要备份":"✓ 无需手动备份"}</span>
- <div class="row"><span>数据位置</span><b>${safe(a.backup)}</b></div>
- <div class="row"><span>绑定账号</span><b>${safe(a.accountType)} ${safe(a.account)}</b></div>
- <div class="row"><span>会员费用</span><b>${safe(a.plan)} ${safe(a.price)}</b></div>
- <div class="row"><span>上次备份</span><b>${safe(a.last||"未记录")}</b></div>
- <div class="row"><span>备注</span><b>${safe(a.notes||"无")}</b></div>
- ${actionButtons(a)}
- </article>`).join("")
- :'<div class="empty">📱 暂无记录，点击添加 App 开始吧</div>'
- }</div>`;
- }else{
- $("content").innerHTML=`<div class="tablewrap"><table>
- <thead><tr>
- <th>App</th><th>类型</th><th>备份方式</th><th>备份状态</th>
- <th>绑定账号</th><th>会员</th><th>价格</th><th>上次备份</th><th>操作</th>
- </tr></thead><tbody>${
- list.map(a=>`<tr>
- <td><b>${safe(a.name)}</b></td>
- <td>${safe(a.type)}</td>
- <td>${safe(a.backup)}</td>
- <td>${a.need?"⚠ 需要":"✓ 无需"}</td>
- <td>${safe(a.accountType)} ${safe(a.account)}</td>
- <td>${safe(a.plan)}</td>
- <td>${safe(a.price)}</td>
- <td>${safe(a.last||"未记录")}</td>
- <td>${actionButtons(a)}</td>
- </tr>`).join("")
- }</tbody></table></div>`;
- }
+const filtered=apps.filter(a=>
+[a.name,a.type,a.account]
+.join(" ").toLowerCase().includes(q)
+);
+
+$("homeGrid").innerHTML=apps.length
+?apps.slice(0,6).map(cardHTML).join("")
+:'<div class="empty">还没有应用，点击 ＋ 添加</div>';
+
+$("appGrid").innerHTML=filtered.length
+?filtered.map(cardHTML).join("")
+:'<div class="empty">暂无应用</div>';
+
+const paid=apps.filter(a=>a.plan!=="免费");
+
+$("subCount").textContent=paid.length;
+
+$("subscriptionList").innerHTML=paid.length
+?paid.map(a=>`
+<div class="list-item" data-id="${escapeHTML(a.id)}">
+<div class="mini-icon">${escapeHTML(Array.from(a.name)[0])}</div>
+<div class="list-info">
+<b>${escapeHTML(a.name)}</b>
+<small>${escapeHTML(a.plan)}</small>
+</div>
+<b>${escapeHTML(a.price||"未记录")}</b>
+</div>
+`).join("")
+:'<div class="empty">暂无付费应用</div>';
 }
 
-function openForm(a=null){
- $("form").reset();
- editId=a?a.id:null;
- $("formTitle").textContent=a?"编辑 App":"添加 App";
- if(a){
-  for(const field of $("form").elements){
-   if(field.name&&a[field.name]!==undefined){
-    field.value=String(a[field.name]);
-   }
-  }
- }
- $("panel").classList.add("show");
- $("panel").scrollIntoView({behavior:"smooth"});
+function newApp(){
+editId=null;
+$("appForm").reset();
+$("editorTitle").textContent="添加应用";
+$("deleteButton").classList.add("hidden");
+showPage("editor");
 }
 
-$("add").onclick=()=>openForm();
-$("cancel").onclick=()=>$("panel").classList.remove("show");
+function editApp(id){
+const a=apps.find(x=>x.id===id);
+if(!a)return;
 
-$("toggle").onclick=()=>{
- view=view==="grid"?"table":"grid";
- $("toggle").textContent=view==="grid"?"📋 切换表格":"📱 切换图标墙";
- render();
+editId=id;
+$("appForm").reset();
+
+for(const field of $("appForm").elements){
+if(field.name && a[field.name]!==undefined){
+field.value=String(a[field.name]);
+}
+}
+
+$("editorTitle").textContent="编辑应用";
+$("deleteButton").classList.remove("hidden");
+showPage("editor");
+}
+
+$("appForm").onsubmit=async e=>{
+e.preventDefault();
+
+const a=Object.fromEntries(
+new FormData(e.target).entries()
+);
+
+a.name=a.name.trim();
+if(!a.name)return;
+
+a.need=a.need==="true";
+a.id=editId||crypto.randomUUID();
+
+const previous=apps;
+
+apps=editId
+?apps.map(x=>x.id===editId?a:x)
+:[a,...apps];
+
+try{
+await saveData();
+showPage("apps");
+}catch(err){
+apps=previous;
+alert("保存失败："+err.message);
+}
 };
 
-$("form").onsubmit=e=>{
- e.preventDefault();
- const a=Object.fromEntries(new FormData(e.target));
- a.name=a.name.trim();
- if(!a.name)return;
- a.need=a.need==="true";
- a.id=editId||String(Date.now())+Math.random();
- if(editId){
-  apps=apps.map(x=>x.id===editId?a:x);
- }else{
-  apps.unshift(a);
- }
- save();
- render();
- $("panel").classList.remove("show");
-};
+async function deleteApp(){
+if(!editId)return;
+if(!confirm("确定删除这个应用吗？"))return;
 
-$("content").onclick=e=>{
- const b=e.target.closest("button");
- if(!b)return;
- const id=b.dataset.edit||b.dataset.delete;
- const a=apps.find(x=>x.id===id);
- if(!a)return;
- if(b.dataset.edit){
-  openForm(a);
- }else if(confirm("确定删除「"+a.name+"」吗？")){
-  apps=apps.filter(x=>x.id!==id);
-  save();
-  render();
- }
-};
+const previous=apps;
+apps=apps.filter(a=>a.id!==editId);
+
+try{
+await saveData();
+editId=null;
+showPage("apps");
+}catch(err){
+apps=previous;
+alert("删除失败："+err.message);
+}
+}
+
+function bindCardClicks(container){
+$(container).addEventListener("click",e=>{
+const card=e.target.closest("[data-id]");
+if(card)editApp(card.dataset.id);
+});
+}
+
+bindCardClicks("homeGrid");
+bindCardClicks("appGrid");
+bindCardClicks("subscriptionList");
 
 $("search").oninput=render;
 
-$("export").onclick=()=>{
- const blob=new Blob([JSON.stringify(apps,null,2)],{
-  type:"application/json"
- });
- const url=URL.createObjectURL(blob);
- const link=document.createElement("a");
- link.href=url;
- link.download="Bella_App备份_"+new Date().toISOString().slice(0,10)+".json";
- link.click();
- setTimeout(()=>URL.revokeObjectURL(url),1000);
-};
+function exportData(){
+if(!vault)return;
 
-$("import").onclick=()=>$("file").click();
+const blob=new Blob(
+[JSON.stringify(vault,null,2)],
+{type:"application/json"}
+);
 
-$("file").onchange=async e=>{
- const file=e.target.files[0];
- if(!file)return;
- try{
-  const data=JSON.parse(await file.text());
-  if(!Array.isArray(data)||
-     !data.every(a=>a&&typeof a.name==="string")){
-   throw new Error("Invalid data");
-  }
-  if(!confirm("导入将覆盖当前记录，确定继续吗？"))return;
-  apps=data.map((a,i)=>({
-   ...a,
-   id:String(a.id||Date.now()+"-"+i),
-   need:a.need===true||a.need==="true"
-  }));
-  save();
-  render();
-  alert("导入成功！");
- }catch(err){
-  alert("文件格式不正确，请选择导出的 JSON 文件。");
- }finally{
-  e.target.value="";
- }
-};
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
 
+a.href=url;
+a.download="MyApps_加密备份_"+
+new Date().toISOString().slice(0,10)+".json";
+
+a.click();
+
+setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+$("importFile").onchange=async e=>{
+const file=e.target.files[0];
+if(!file)return;
+
+try{
+const imported=JSON.parse(await file.text());
+
+if(!validVault(imported)){
+throw Error("请选择加密版备份文件");
+}
+
+const password=prompt("请输入备份文件的原主密码");
+if(password===null)return;
+
+const importKey=await deriveKey(
+password,fromBase64(imported.salt)
+);
+
+const incoming=await decryptData(imported,importKey);
+
+if(!confirm(
+"导入 "+incoming.length+
+" 条记录？这会覆盖当前数据。"
+))return;
+
+const previous=apps;
+apps=incoming.map((a,i)=>({
+...a,
+id:String(a.id||Date.now()+"-"+i),
+need:a.need===true||a.need==="true"
+}));
+
+try{
+await saveData();
 render();
+alert("导入成功");
+}catch(err){
+apps=previous;
+throw err;
+}
+
+}catch(err){
+alert("导入失败："+err.message);
+}finally{
+e.target.value="";
+}
+};
+
+function lockApp(){
+apps=[];
+secretKey=null;
+editId=null;
+
+$("mainApp").classList.add("hidden");
+$("navbar").classList.add("hidden");
+$("addButton").classList.add("hidden");
+$("lockscreen").classList.remove("hidden");
+
+updateLockScreen();
+}
+
+window.addEventListener("pagehide",()=>{
+apps=[];
+secretKey=null;
+});
+
+updateLockScreen();
 </script>
 </body>
 </html>
