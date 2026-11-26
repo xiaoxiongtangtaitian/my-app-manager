@@ -26,4 +26,296 @@ button{border:0;background:#5856d6;color:white;border-radius:11px;padding:11px 1
 .icon{width:58px;height:58px;border-radius:17px;background:linear-gradient(135deg,#7c6cf0,#42c5da);display:grid;place-items:center;color:white;font-size:25px;font-weight:bold;flex-shrink:0}
 .name{font-size:18px;font-weight:700;overflow-wrap:anywhere}
 .muted{font-size:12px;color:#86868b;margin-top:4px}
-.badge{display:inline-block;background:#e8f8ee;color:#16804b;border-radius:8px;padding:6px
+.badge{display:inline-block;background:#e8f8ee;color:#16804b;border-radius:8px;padding:6px 10px;margin:15px 0;font-size:12px}
+.badge.need{background:#fff1df;color:#af650c}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid #f0f0f2;font-size:13px}
+.row span{color:#86868b}
+.row b{text-align:right;overflow-wrap:anywhere}
+.actions{display:flex;gap:8px;margin-top:12px}
+.actions button{flex:1}
+.panel{display:none;margin-bottom:20px}
+.panel.show{display:block}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{font-size:13px;color:#555}
+label input,label select{margin-top:6px}
+.formbuttons{display:flex;gap:10px;margin-top:20px}
+.tablewrap{overflow-x:auto;background:white;border-radius:18px}
+table{width:100%;border-collapse:collapse;min-width:780px}
+th,td{text-align:left;padding:15px;border-bottom:1px solid #eee;font-size:13px}
+th{color:#86868b;background:#fafafa}
+td button{margin:2px}
+.notice{background:#fff8e8;padding:15px;border-radius:12px;margin-top:25px;font-size:13px;color:#80631c}
+.empty{text-align:center;padding:45px;color:#86868b;grid-column:1/-1}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:580px){.grid,.fields{grid-template-columns:1fr}.stat{padding:13px}.stat strong{font-size:24px}h1{font-size:26px}}
+</style>
+</head>
+<body>
+<main>
+<h1>✨ Bella 的 App 管家</h1>
+<p class="sub">📱 我的应用 · ☁️ 数据备份 · 💎 会员资产</p>
+
+<div class="stats">
+<div class="stat"><strong id="total">0</strong><span>全部 App</span></div>
+<div class="stat"><strong id="needCount">0</strong><span>需要备份</span></div>
+<div class="stat"><strong id="paidCount">0</strong><span>付费 App</span></div>
+</div>
+
+<div class="toolbar">
+<input id="search" placeholder="🔍 搜索 App、账号、类型">
+<button id="add">＋ 添加 App</button>
+<button class="secondary" id="toggle">📋 切换表格</button>
+<button class="secondary" id="export">↓ 导出</button>
+<button class="secondary" id="import">↑ 导入</button>
+<input id="file" type="file" accept=".json" hidden>
+</div>
+
+<section class="panel" id="panel">
+<h2 id="formTitle">添加 App</h2>
+<form id="form">
+<div class="fields">
+<label>App 名称 *
+<input name="name" required placeholder="例如：微信"></label>
+<label>类型
+<input name="type" placeholder="社交 / 工具 / 影音"></label>
+<label>数据位置 / 备份方式
+<select name="backup">
+<option>iCloud</option>
+<option>App 云端</option>
+<option>本地手动备份</option>
+<option>电脑 / 硬盘</option>
+<option>其他</option>
+</select></label>
+<label>是否需要手动备份
+<select name="need">
+<option value="false">无需备份</option>
+<option value="true">需要备份</option>
+</select></label>
+<label>绑定账号类型
+<select name="accountType">
+<option>微信</option>
+<option>QQ 邮箱</option>
+<option>手机号</option>
+<option>Apple ID</option>
+<option>邮箱</option>
+<option>其他</option>
+</select></label>
+<label>账号标识（不要填写密码）
+<input name="account" placeholder="邮箱或手机号尾号"></label>
+<label>费用 / 订阅
+<select name="plan">
+<option>免费</option>
+<option>月付</option>
+<option>年付</option>
+<option>永久会员</option>
+<option>一次性购买</option>
+</select></label>
+<label>价格
+<input name="price" placeholder="例如：¥128"></label>
+<label>上次备份日期
+<input name="last" type="date"></label>
+<label>备注
+<input name="notes" placeholder="续费日期、数据位置等"></label>
+</div>
+<div class="formbuttons">
+<button type="submit">保存 App</button>
+<button type="button" class="secondary" id="cancel">取消</button>
+</div>
+</form>
+</section>
+
+<div id="content"></div>
+
+<div class="notice">
+🔒 记录保存在当前浏览器，不会上传到 GitHub。
+手机和电脑的数据不会自动同步，请定期导出 JSON 备份。
+不要填写账号密码。
+</div>
+</main>
+
+<script>
+const KEY="bella_app_manager_v2";
+const $=id=>document.getElementById(id);
+let apps=[];
+let editId=null;
+let view="grid";
+
+try{
+ const saved=JSON.parse(localStorage.getItem(KEY)||"[]");
+ if(Array.isArray(saved))apps=saved;
+}catch(e){}
+
+function safe(v){
+ return String(v??"").replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",
+ '"':"&quot;","'":"&#39;"
+ })[c]);
+}
+
+function save(){
+ try{
+  localStorage.setItem(KEY,JSON.stringify(apps));
+ }catch(e){
+  alert("保存失败，请检查浏览器存储空间。");
+ }
+}
+
+function actionButtons(a){
+ return `<div class="actions">
+ <button class="secondary" data-edit="${safe(a.id)}">编辑</button>
+ <button class="danger" data-delete="${safe(a.id)}">删除</button>
+ </div>`;
+}
+
+function render(){
+ const q=$("search").value.toLowerCase();
+ $("total").textContent=apps.length;
+ $("needCount").textContent=apps.filter(a=>a.need).length;
+ $("paidCount").textContent=apps.filter(a=>a.plan!=="免费").length;
+
+ const list=apps.filter(a=>
+ [a.name,a.type,a.account,a.accountType]
+ .join(" ").toLowerCase().includes(q));
+
+ if(view==="grid"){
+ $("content").innerHTML=`<div class="grid">${
+ list.length?list.map(a=>`
+ <article class="card">
+ <div class="top">
+ <div class="icon">${safe(Array.from(a.name||"A")[0])}</div>
+ <div><div class="name">${safe(a.name)}</div>
+ <div class="muted">${safe(a.type||"未分类")}</div></div>
+ </div>
+ <span class="badge ${a.need?"need":""}">
+ ${a.need?"⚠ 需要备份":"✓ 无需手动备份"}</span>
+ <div class="row"><span>数据位置</span><b>${safe(a.backup)}</b></div>
+ <div class="row"><span>绑定账号</span><b>${safe(a.accountType)} ${safe(a.account)}</b></div>
+ <div class="row"><span>会员费用</span><b>${safe(a.plan)} ${safe(a.price)}</b></div>
+ <div class="row"><span>上次备份</span><b>${safe(a.last||"未记录")}</b></div>
+ <div class="row"><span>备注</span><b>${safe(a.notes||"无")}</b></div>
+ ${actionButtons(a)}
+ </article>`).join("")
+ :'<div class="empty">📱 暂无记录，点击添加 App 开始吧</div>'
+ }</div>`;
+ }else{
+ $("content").innerHTML=`<div class="tablewrap"><table>
+ <thead><tr>
+ <th>App</th><th>类型</th><th>备份方式</th><th>备份状态</th>
+ <th>绑定账号</th><th>会员</th><th>价格</th><th>上次备份</th><th>操作</th>
+ </tr></thead><tbody>${
+ list.map(a=>`<tr>
+ <td><b>${safe(a.name)}</b></td>
+ <td>${safe(a.type)}</td>
+ <td>${safe(a.backup)}</td>
+ <td>${a.need?"⚠ 需要":"✓ 无需"}</td>
+ <td>${safe(a.accountType)} ${safe(a.account)}</td>
+ <td>${safe(a.plan)}</td>
+ <td>${safe(a.price)}</td>
+ <td>${safe(a.last||"未记录")}</td>
+ <td>${actionButtons(a)}</td>
+ </tr>`).join("")
+ }</tbody></table></div>`;
+ }
+}
+
+function openForm(a=null){
+ $("form").reset();
+ editId=a?a.id:null;
+ $("formTitle").textContent=a?"编辑 App":"添加 App";
+ if(a){
+  for(const field of $("form").elements){
+   if(field.name&&a[field.name]!==undefined){
+    field.value=String(a[field.name]);
+   }
+  }
+ }
+ $("panel").classList.add("show");
+ $("panel").scrollIntoView({behavior:"smooth"});
+}
+
+$("add").onclick=()=>openForm();
+$("cancel").onclick=()=>$("panel").classList.remove("show");
+
+$("toggle").onclick=()=>{
+ view=view==="grid"?"table":"grid";
+ $("toggle").textContent=view==="grid"?"📋 切换表格":"📱 切换图标墙";
+ render();
+};
+
+$("form").onsubmit=e=>{
+ e.preventDefault();
+ const a=Object.fromEntries(new FormData(e.target));
+ a.name=a.name.trim();
+ if(!a.name)return;
+ a.need=a.need==="true";
+ a.id=editId||String(Date.now())+Math.random();
+ if(editId){
+  apps=apps.map(x=>x.id===editId?a:x);
+ }else{
+  apps.unshift(a);
+ }
+ save();
+ render();
+ $("panel").classList.remove("show");
+};
+
+$("content").onclick=e=>{
+ const b=e.target.closest("button");
+ if(!b)return;
+ const id=b.dataset.edit||b.dataset.delete;
+ const a=apps.find(x=>x.id===id);
+ if(!a)return;
+ if(b.dataset.edit){
+  openForm(a);
+ }else if(confirm("确定删除「"+a.name+"」吗？")){
+  apps=apps.filter(x=>x.id!==id);
+  save();
+  render();
+ }
+};
+
+$("search").oninput=render;
+
+$("export").onclick=()=>{
+ const blob=new Blob([JSON.stringify(apps,null,2)],{
+  type:"application/json"
+ });
+ const url=URL.createObjectURL(blob);
+ const link=document.createElement("a");
+ link.href=url;
+ link.download="Bella_App备份_"+new Date().toISOString().slice(0,10)+".json";
+ link.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+
+$("import").onclick=()=>$("file").click();
+
+$("file").onchange=async e=>{
+ const file=e.target.files[0];
+ if(!file)return;
+ try{
+  const data=JSON.parse(await file.text());
+  if(!Array.isArray(data)||
+     !data.every(a=>a&&typeof a.name==="string")){
+   throw new Error("Invalid data");
+  }
+  if(!confirm("导入将覆盖当前记录，确定继续吗？"))return;
+  apps=data.map((a,i)=>({
+   ...a,
+   id:String(a.id||Date.now()+"-"+i),
+   need:a.need===true||a.need==="true"
+  }));
+  save();
+  render();
+  alert("导入成功！");
+ }catch(err){
+  alert("文件格式不正确，请选择导出的 JSON 文件。");
+ }finally{
+  e.target.value="";
+ }
+};
+
+render();
+</script>
+</body>
+</html>
